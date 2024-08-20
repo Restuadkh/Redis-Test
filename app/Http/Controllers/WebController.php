@@ -7,7 +7,8 @@ use App\Models\Web;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-
+use Predis\PredisException;
+predis
 class WebController extends Controller
 {
     /**
@@ -49,37 +50,37 @@ class WebController extends Controller
         try {
             
             // Mendapatkan data dari Redis dengan key 'web'
-            $get = Redis::get('web');
-            // $get = Redis::get('name');
+            // $get = Redis::get('web');
+            $get = Redis::get('name');
 
             // Jika data tidak ada di Redis, ambil dari database dan simpan ke Redis
             if (!$get) {
                 // $data = Web::limit(10000)->get();
                 // Menyimpan data ke Redis
-                // Redis::set('name', 'value');
+                Redis::set('name', 'value');
                 // Simpan data ke Redis dengan key 'web' dan TTL 50 menit
                 // Redis::set('web', 50 * 60, $data->toJson());
-                Redis::set('web', 50 * 60, "TEST");
-                // $get = $data;
+                // Redis::set('web', 50 * 60, "TEST");
+                $get = Redis::get('name'); 
             } else {
                 // Jika data ada di Redis, decode JSON ke objek
                 $get = json_decode($get);
             }
 
-            // // Return response jika data ada
-            // if ($get) {
-            //     return response()->json([
-            //         'Status' => 'Ok',
-            //         'Content' => $get,
-            //         'code' => 200,
-            //     ]);
-            // } else {
-            //     return response()->json([
-            //         'Status' => 'Failed',
-            //         'Content' => null,
-            //         'code' => 401,
-            //     ]);
-            // }
+            // Return response jika data ada
+            if ($get) {
+                return response()->json([
+                    'Status' => 'Ok',
+                    'Content' => $get,
+                    'code' => 200,
+                ]);
+            } else {
+                return response()->json([
+                    'Status' => 'Failed',
+                    'Content' => null,
+                    'code' => 401,
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'Status' => 'Empty',
