@@ -7,8 +7,7 @@ use App\Models\Web;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-use Predis\PredisException;
-predis
+use Predis\PredisException; 
 class WebController extends Controller
 {
     /**
