@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Web;
-use Cache;
+// use Cache;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class WebController extends Controller
 {
@@ -46,13 +47,21 @@ class WebController extends Controller
     public function index_redis()
     {
         try {
+            // Mendapatkan data dari Redis dengan key 'web'
+            $get = Redis::get('web');
 
-            $get = Cache::remember('web', now()->addMinutes(50), function () {
+            // Jika data tidak ada di Redis, ambil dari database dan simpan ke Redis
+            if (!$get) {
                 $data = Web::limit(10000)->get();
-                return $data;
-            });
+                // Simpan data ke Redis dengan key 'web' dan TTL 50 menit
+                Redis::setex('web', 50 * 60, $data->toJson());
+                $get = $data;
+            } else {
+                // Jika data ada di Redis, decode JSON ke objek
+                $get = json_decode($get);
+            }
 
-
+            // Return response jika data ada
             if ($get) {
                 return response()->json([
                     'Status' => 'Ok',
@@ -69,7 +78,7 @@ class WebController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'Status' => 'Empty',
-                'Content' => null,
+                'Content' => $e,
                 'code' => 404,
             ]);
         }
