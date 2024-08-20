@@ -65,20 +65,20 @@ class WebController extends Controller
                 $get = json_decode($get);
             }
 
-            // Return response jika data ada
-            if ($get) {
-                return response()->json([
-                    'Status' => 'Ok',
-                    'Content' => $get,
-                    'code' => 200,
-                ]);
-            } else {
-                return response()->json([
-                    'Status' => 'Failed',
-                    'Content' => null,
-                    'code' => 401,
-                ]);
-            }
+            // // Return response jika data ada
+            // if ($get) {
+            //     return response()->json([
+            //         'Status' => 'Ok',
+            //         'Content' => $get,
+            //         'code' => 200,
+            //     ]);
+            // } else {
+            //     return response()->json([
+            //         'Status' => 'Failed',
+            //         'Content' => null,
+            //         'code' => 401,
+            //     ]);
+            // }
         } catch (\Exception $e) {
             return response()->json([
                 'Status' => 'Empty',
