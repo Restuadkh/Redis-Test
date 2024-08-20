@@ -49,16 +49,17 @@ class WebController extends Controller
         try {
             
             // Mendapatkan data dari Redis dengan key 'web'
-            // $get = Redis::get('web');
-            $get = Redis::get('name');
+            $get = Redis::get('web');
+            // $get = Redis::get('name');
 
             // Jika data tidak ada di Redis, ambil dari database dan simpan ke Redis
             if (!$get) {
                 // $data = Web::limit(10000)->get();
                 // Menyimpan data ke Redis
-                Redis::set('name', 'value');
+                // Redis::set('name', 'value');
                 // Simpan data ke Redis dengan key 'web' dan TTL 50 menit
                 // Redis::set('web', 50 * 60, $data->toJson());
+                Redis::set('web', 50 * 60, "TEST");
                 // $get = $data;
             } else {
                 // Jika data ada di Redis, decode JSON ke objek
