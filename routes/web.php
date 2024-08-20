@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/get', [WebController::class, 'index']);
+Route::get('/get_redis', [WebController::class, 'index_redis']);
