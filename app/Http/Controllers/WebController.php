@@ -36,7 +36,7 @@ class WebController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'Status' => 'Empty',
-                'Content' => null,
+                'Content' => $e,
                 'code' => 404,
             ]);
         }
